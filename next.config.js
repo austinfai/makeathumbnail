@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 // Configuration for Next.js application
+// Domain: makeathumbnail.ai
 const nextConfig = {
     images: {
         remotePatterns: [
