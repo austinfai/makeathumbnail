@@ -4,12 +4,25 @@ import { FileRouter } from "uploadthing/next";
 
 export const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
-export const extractRouterConfig = (router: FileRouter) => {
-    const config: Record<string, any> = {};
+type EndpointMetadata = {
+    [K in keyof OurFileRouter]: {
+        endpoint: K;
+        config: {
+            maxFileSize?: string;
+            maxFileCount?: number;
+        };
+    };
+};
+
+export const extractRouterConfig = (router: FileRouter): EndpointMetadata => {
+    const config = {} as EndpointMetadata;
     Object.entries(router).forEach(([key, value]) => {
-        config[key] = {
-            endpoint: key,
-            config: value
+        config[key as keyof OurFileRouter] = {
+            endpoint: key as keyof OurFileRouter,
+            config: {
+                maxFileSize: "4MB",
+                maxFileCount: 1
+            }
         };
     });
     return config;
