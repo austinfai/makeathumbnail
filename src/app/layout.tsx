@@ -8,7 +8,7 @@ import {
   UserButton
 } from '@clerk/nextjs';
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "uploadthing/server";
+import { extractRouterConfig } from "../utils/uploadthing";
 import { ourFileRouter } from "./api/uploadthing/core";
 
 export const metadata: Metadata = {
