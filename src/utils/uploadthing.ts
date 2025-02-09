@@ -1,12 +1,16 @@
-import { generateComponents } from "@uploadthing/react";
+import { generateReactHelpers } from "@uploadthing/react/hooks";
 import type { OurFileRouter } from "../app/api/uploadthing/core";
 import { FileRouter } from "uploadthing/next";
 
-export const { useUploadThing } = generateComponents<OurFileRouter>();
+export const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
 export const extractRouterConfig = (router: FileRouter) => {
-    return Object.entries(router).map(([slug, config]) => ({
-        slug,
-        config,
-    }));
+    const config: Record<string, any> = {};
+    Object.entries(router).forEach(([key, value]) => {
+        config[key] = {
+            endpoint: key,
+            config: value
+        };
+    });
+    return config;
 }; 
