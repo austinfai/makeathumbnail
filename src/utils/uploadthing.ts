@@ -7,9 +7,6 @@ export const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 export const extractRouterConfig = (router: FileRouter) => {
     return Object.entries(router).map(([slug]) => ({
         slug,
-        config: {
-            maxFileSize: "4MB",
-            maxFileCount: 1
-        }
+        config: {}
     }));
 }; 
