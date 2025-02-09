@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { UploadButton } from "@uploadthing/react";
+import type { UploadFileResponse } from "uploadthing/client";
 import { OurFileRouter } from "../api/uploadthing/core";
 import Image from "next/image";
 
@@ -30,17 +31,16 @@ export default function FileUpload() {
         </div>
       )}
 
-      <UploadButton<OurFileRouter, "imageUploader">
+      <UploadButton<OurFileRouter>
         endpoint="imageUploader"
-        onBeforeUploadBegin={(files) => {
-          console.log("Starting upload for files:", files.map(f => f.name));
-          return files;
+        onUploadBegin={(fileName: string) => {
+          console.log("Starting upload for file:", fileName);
         }}
-        onUploadProgress={(progress) => {
+        onUploadProgress={(progress: number) => {
           console.log("Upload progress:", progress);
           setUploadProgress(Math.round(progress * 100));
         }}
-        onClientUploadComplete={(res) => {
+        onClientUploadComplete={(res?: UploadFileResponse[]) => {
           console.log("Upload completed:", res);
           if (!res?.[0]?.url) {
             setError("Failed to get upload URL");
