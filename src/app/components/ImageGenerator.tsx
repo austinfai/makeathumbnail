@@ -99,7 +99,7 @@ export default function ImageGenerator() {
   const [isHovering, setIsHovering] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const { startUpload } = useUploadThing("generatedImage", {
+  const { startUpload } = useUploadThing("imageUploader", {
     onClientUploadComplete: (res) => {
       console.log("Upload completed successfully:", res);
       if (res?.[0]?.url) {
