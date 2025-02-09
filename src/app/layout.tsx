@@ -8,7 +8,6 @@ import {
   UserButton
 } from '@clerk/nextjs';
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
-import { extractRouterConfig } from "../utils/uploadthing";
 import { ourFileRouter } from "./api/uploadthing/core";
 
 export const metadata: Metadata = {
@@ -67,7 +66,6 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body>
-          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           <header className="fixed top-0 right-0 p-4 z-50">
             <SignedOut>
               <SignInButton mode="modal">
