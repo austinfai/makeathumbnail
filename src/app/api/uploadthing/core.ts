@@ -4,49 +4,48 @@ const f = createUploadthing();
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-    // Define as many FileRoutes as you like, each with a unique routeSlug
-    imageUploader: f({
-        image: {
-            maxFileSize: "8MB",
-            maxFileCount: 1
-        }
-    })
-        // Set permissions and file types for this FileRoute
+    // Direct upload endpoint for generated images
+    generatedImage: f({ image: { maxFileSize: "32MB", maxFileCount: 1 } })
         .middleware(async () => {
-            // This code runs on your server before upload
-            // const user = await auth(req);
-
-            // If you throw, the user will not be able to upload
-            // if (!user) throw new Error("Unauthorized");
-
-            // Whatever is returned here is accessible in onUploadComplete as `metadata`
-            return { timestamp: Date.now() };
+            console.log("Processing generated image upload...");
+            return { uploadedAt: new Date() };
         })
-        .onUploadComplete(async ({ metadata, file }) => {
-            // This code RUNS ON YOUR SERVER after upload
-            console.log("Upload complete for file:", file.name);
-            console.log("File URL:", file.url);
-
-            // Return the file URL in the response
+        .onUploadComplete(({ file }) => {
+            console.log("Generated image upload complete:", file.url);
             return { url: file.url };
         }),
 
-    // Add a direct upload endpoint for server-side uploads
-    directUpload: f({ image: { maxFileSize: "8MB" } })
+    // Original imageUploader endpoint
+    imageUploader: f({ image: { maxFileSize: "32MB", maxFileCount: 1 } })
         .middleware(async () => {
-            return { timestamp: Date.now() };
+            console.log("UploadThing middleware running...");
+            if (!process.env.UPLOADTHING_SECRET || !process.env.UPLOADTHING_APP_ID) {
+                throw new Error("Missing UploadThing credentials");
+            }
+            return { uploadedAt: new Date() };
+        })
+        .onUploadComplete(({ file }) => {
+            console.log("Upload complete:", file.url);
+            return { url: file.url };
+        }),
+
+    // Server-side upload endpoint
+    serverUploader: f({
+        image: { maxFileSize: "8MB", maxFileCount: 1 }
+    })
+        .middleware(async ({ req }) => {
+            console.log("Server upload middleware running...");
+            return { uploadedAt: new Date() };
         })
         .onUploadComplete(async ({ metadata, file }) => {
-            console.log("Direct upload complete for file:", file.name);
-            console.log("File URL:", file.url);
-
+            console.log("Server upload complete!", { metadata, file });
             return {
                 url: file.url,
                 name: file.name,
                 size: file.size,
-                key: file.key
+                key: file.key,
             };
-        }),
+        })
 } satisfies FileRouter;
 
 export type OurFileRouter = typeof ourFileRouter;

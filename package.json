@@ -11,10 +11,12 @@
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.48",
     "@ai-sdk/openai": "^0.0.54",
+    "@clerk/nextjs": "^4.29.3",
     "@deepgram/sdk": "^3.6.0",
     "@prisma/client": "^6.2.1",
-    "@uploadthing/react": "^7.1.5",
+    "@uploadthing/react": "^5.7.0",
     "ai": "^3.3.20",
+    "cloudinary": "^2.5.1",
     "date-fns": "^3.6.0",
     "firebase": "^10.13.0",
     "firebase-admin": "^13.0.2",
@@ -26,7 +28,7 @@
     "react-dom": "^18",
     "react-markdown": "^9.0.1",
     "replicate": "^0.32.0",
-    "uploadthing": "^7.4.4"
+    "uploadthing": "^5.7.0"
   },
   "devDependencies": {
     "@types/node": "^20",
