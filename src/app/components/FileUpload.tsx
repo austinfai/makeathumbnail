@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { UploadButton } from "@uploadthing/react";
 import { OurFileRouter } from "../api/uploadthing/core";
+import Image from "next/image";
 
 export default function FileUpload() {
   const [uploadProgress, setUploadProgress] = useState<number>(0);
@@ -62,10 +63,13 @@ export default function FileUpload() {
       {uploadedUrl && (
         <div className="mt-4 w-full max-w-md">
           <p className="text-sm text-gray-600 mb-2">Upload successful!</p>
-          <img
+          <Image
             src={uploadedUrl}
-            alt="Uploaded file"
-            className="w-full rounded-lg shadow-md"
+            alt="File preview"
+            width={200}
+            height={200}
+            className="max-w-full h-auto"
+            priority
           />
         </div>
       )}

@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "update-browserslist-db"
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^0.0.48",
     "@ai-sdk/openai": "^0.0.54",
-    "@clerk/nextjs": "^4.29.3",
+    "@clerk/express": "latest",
     "@deepgram/sdk": "^3.6.0",
     "@prisma/client": "^6.2.1",
     "@uploadthing/react": "^5.7.0",

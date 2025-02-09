@@ -1,33 +1,19 @@
 import { createNextRouteHandler } from "uploadthing/next";
 import { ourFileRouter } from "./core";
 
-export const runtime = "edge";
+// Remove the edge runtime for now as it's causing conflicts
+// export const runtime = "edge";
 
-// Export routes for Next App Router
+// Create the route handler
 export const { GET, POST } = createNextRouteHandler({
     router: ourFileRouter,
 });
 
-// Add a new POST handler for direct uploads
-export async function uploadFile(formData: FormData) {
-    try {
-        const file = formData.get('file') as File;
-        if (!file) {
-            throw new Error('No file provided');
-        }
+// Export typed route handlers
+export async function GET(request: NextRequest) {
+    return GET(request);
+}
 
-        const response = await fetch('/api/uploadthing', {
-            method: 'POST',
-            body: formData
-        });
-
-        if (!response.ok) {
-            throw new Error('Failed to upload file');
-        }
-
-        return response.json();
-    } catch (error) {
-        console.error('Error in uploadFile:', error);
-        throw error;
-    }
+export async function POST(request: NextRequest) {
+    return POST(request);
 } 
