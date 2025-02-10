@@ -3,6 +3,7 @@
 // Configuration for Next.js application
 // Domain: makeathumbnail.ai
 const nextConfig = {
+    output: 'standalone',
     images: {
         remotePatterns: [
             {
