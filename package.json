@@ -6,21 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "npx update-browserslist-db@latest"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.0.0",
+    "@uploadthing/react": "^5.7.0",
     "next": "14.2.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "@uploadthing/react": "^5.7.0",
-    "date-fns": "^3.6.0",
-    "firebase": "^10.13.0",
-    "firebase-admin": "^13.0.2",
-    "framer-motion": "^11.3.31",
-    "lucide-react": "^0.436.0",
-    "react-markdown": "^9.0.1",
     "replicate": "^0.32.0",
     "uploadthing": "^5.7.0"
   },
@@ -28,7 +21,6 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "browserslist": "^4.22.3",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.7",
     "postcss": "^8",
