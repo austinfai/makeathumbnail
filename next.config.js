@@ -14,6 +14,10 @@ const nextConfig = {
     },
     experimental: {
         missingSuspenseWithCSRBailout: false
+    },
+    onError: (err) => {
+        console.error('Next.js build error:', err);
+        return '/';
     }
 };
 
