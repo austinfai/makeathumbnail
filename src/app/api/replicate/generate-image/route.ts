@@ -2,11 +2,9 @@ import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
 import { headers } from 'next/headers';
 
-// Using latest SDXL model
-const MODEL_VERSION = "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b";
-
-export const dynamic = 'force-dynamic';
-export const runtime = 'edge';
+const replicate = new Replicate({
+  auth: process.env.REPLICATE_API_TOKEN,
+});
 
 export async function POST(request: Request) {
   try {
@@ -44,31 +42,21 @@ export async function POST(request: Request) {
       );
     }
 
-    const replicate = new Replicate({
-      auth: process.env.REPLICATE_API_TOKEN,
-    });
+    const output = await replicate.run(
+      "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
+      {
+        input: {
+          prompt,
+          negative_prompt: negative_prompt || "blurry, low quality, distorted, bad anatomy, bad hands, cropped, worst quality",
+          num_inference_steps: num_inference_steps || 50,
+          guidance_scale: guidance_scale || 7.5,
+          width: width || 1024,
+          height: height || 1024
+        }
+      }
+    ) as string[];
 
-    // Basic model inputs for SDXL
-    const modelInputs = {
-      prompt,
-      negative_prompt: negative_prompt || "blurry, low quality, distorted, bad anatomy, bad hands, cropped, worst quality",
-      num_inference_steps: num_inference_steps || 50,
-      guidance_scale: guidance_scale || 7.5,
-      width: width || 1024,
-      height: height || 1024
-    };
-
-    console.log('Starting image generation with inputs:', modelInputs);
-    console.log('Using model version:', MODEL_VERSION);
-    console.log('API Token exists:', !!process.env.REPLICATE_API_TOKEN);
-
-    const output = await replicate.run(MODEL_VERSION, {
-      input: modelInputs
-    }) as string[];
-
-    console.log('Generation complete. Output:', output);
-
-    if (!output?.[0]) {
+    if (!output || !output.length) {
       return NextResponse.json(
         { error: 'No image generated' },
         { status: 500, headers: corsHeaders }
@@ -81,12 +69,7 @@ export async function POST(request: Request) {
     );
 
   } catch (error: any) {
-    console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
-      cause: error.cause
-    });
-
+    console.error('Error in generate-image:', error);
     return NextResponse.json(
       { error: error.message || 'Failed to generate image' },
       {
