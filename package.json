@@ -10,8 +10,7 @@
     "postinstall": "npx update-browserslist-db@latest"
   },
   "dependencies": {
-    "@clerk/nextjs": "^4.29.7",
-    "@clerk/express": "^4.29.7",
+    "@clerk/nextjs": "^5.0.0",
     "@prisma/client": "^6.2.1",
     "@uploadthing/react": "^5.7.0",
     "date-fns": "^3.6.0",
