@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://makeathumbnail.com',
+    url: 'https://makeathumbnail.ai',
     siteName: 'Make A Thumbnail',
     title: 'Make A Thumbnail - Create Beautiful Images',
     description: 'Create beautiful thumbnails and images with AI-powered generation and editing tools.',
