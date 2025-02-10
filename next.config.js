@@ -10,6 +10,9 @@ const nextConfig = {
                 hostname: '**',
             },
         ],
+    },
+    experimental: {
+        missingSuspenseWithCSRBailout: false
     }
 };
 
