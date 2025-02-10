@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ImageGenerator from './components/ImageGenerator';
+import ImageGeneratorSimple from './components/ImageGeneratorSimple';
 
 export const metadata: Metadata = {
   title: 'Create Images',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main className="min-h-screen">
-      <ImageGenerator />
+      <ImageGeneratorSimple />
     </main>
   );
 }
