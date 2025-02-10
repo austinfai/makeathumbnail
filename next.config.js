@@ -11,6 +11,21 @@ const nextConfig = {
             },
         ],
     },
+    async redirects() {
+        return [
+            {
+                source: '/:path*',
+                destination: '/',
+                permanent: false,
+                missing: [
+                    {
+                        type: 'page',
+                        key: ':path*'
+                    }
+                ]
+            }
+        ];
+    }
 };
 
 module.exports = nextConfig; 
