@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     }
 
     const body = await request.json();
-    const { prompt } = body;
+    const { prompt, width, height, num_inference_steps, guidance_scale, negative_prompt } = body;
 
     if (!prompt) {
       return NextResponse.json(
@@ -50,12 +50,12 @@ export async function POST(request: Request) {
 
     // Basic model inputs for SDXL
     const modelInputs = {
-      prompt: prompt,
-      negative_prompt: "blurry, low quality, distorted, bad anatomy, bad hands, cropped, worst quality",
-      num_inference_steps: 50,
-      guidance_scale: 7.5,
-      width: 1024,
-      height: 1024
+      prompt,
+      negative_prompt: negative_prompt || "blurry, low quality, distorted, bad anatomy, bad hands, cropped, worst quality",
+      num_inference_steps: num_inference_steps || 50,
+      guidance_scale: guidance_scale || 7.5,
+      width: width || 1024,
+      height: height || 1024
     };
 
     console.log('Starting image generation with inputs:', modelInputs);
