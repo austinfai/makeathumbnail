@@ -10,15 +10,15 @@
     "postinstall": "npx update-browserslist-db@latest"
   },
   "dependencies": {
-    "@clerk/nextjs": "5.3.2",
-    "@clerk/express": "5.3.2",
+    "@clerk/nextjs": "^5.0.0",
+    "@clerk/backend": "^0.38.0",
     "@prisma/client": "^6.2.1",
     "@uploadthing/react": "^5.7.0",
     "date-fns": "^3.6.0",
     "firebase": "^10.13.0",
     "firebase-admin": "^13.0.2",
     "framer-motion": "^11.3.31",
-    "glob": "9.4.1",
+    "glob": "^10.3.10",
     "lucide-react": "^0.436.0",
     "next": "14.2.7",
     "prisma": "^6.2.1",
@@ -41,8 +41,5 @@
   },
   "engines": {
     "node": ">=18.17.0"
-  },
-  "resolutions": {
-    "glob": "9.4.1"
   }
 }
