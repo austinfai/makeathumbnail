@@ -1,15 +1,12 @@
 import "./globals.css";
 import type { Metadata } from 'next';
-import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton
-} from '@clerk/nextjs';
+import { ClerkProvider } from '@clerk/nextjs';
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "@/utils/uploadthing";
 import { ourFileRouter } from "./api/uploadthing/core";
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: {
@@ -65,21 +62,9 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" className={inter.className}>
         <body>
           <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
-          <header className="fixed top-0 right-0 p-4 z-50">
-            <SignedOut>
-              <SignInButton mode="modal">
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors">
-                  Sign In
-                </button>
-              </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
-          </header>
           {children}
         </body>
       </html>

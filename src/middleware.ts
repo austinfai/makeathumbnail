@@ -1,9 +1,11 @@
 import { authMiddleware } from '@clerk/nextjs/server';
 
-export default authMiddleware();
+export default authMiddleware({
+    publicRoutes: ["/", "/api/uploadthing"],
+});
 
 // This example protects all routes including api/trpc routes
 // Please edit this to allow other routes to be public as needed.
 export const config = {
-    matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
+    matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 }; 
