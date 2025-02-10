@@ -10,16 +10,6 @@ const nextConfig = {
                 hostname: '**',
             },
         ],
-    },
-    async rewrites() {
-        return {
-            fallback: [
-                {
-                    source: '/:path*',
-                    destination: '/'
-                }
-            ]
-        };
     }
 };
 
