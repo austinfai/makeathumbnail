@@ -11,6 +11,9 @@
   "dependencies": {
     "@clerk/nextjs": "^5.0.0",
     "@uploadthing/react": "^5.7.0",
+    "firebase": "^10.8.0",
+    "firebase-admin": "^12.0.0",
+    "lucide-react": "^0.344.0",
     "next": "14.2.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -21,6 +24,7 @@
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "autoprefixer": "^10.0.1",
     "eslint": "^8.57.1",
     "eslint-config-next": "14.2.7",
     "postcss": "^8",
