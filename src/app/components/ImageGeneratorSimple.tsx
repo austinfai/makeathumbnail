@@ -161,18 +161,6 @@ export default function ImageGeneratorSimple() {
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
             Create stunning thumbnails in seconds using AI. Perfect for content creators and influencers.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <SignInButton mode="modal">
-              <button className="w-full sm:w-auto px-8 py-3 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-                Sign In
-              </button>
-            </SignInButton>
-            <SignUpButton mode="modal">
-              <button className="w-full sm:w-auto px-8 py-3 text-lg bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                Get Started Free
-              </button>
-            </SignUpButton>
-          </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
             <div className="p-6 rounded-lg bg-gray-800/50 backdrop-blur-sm">
               <h3 className="text-xl font-semibold text-white mb-2">AI-Powered</h3>

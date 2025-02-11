@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
+import Navbar from './components/Navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -65,7 +66,10 @@ export default function RootLayout({
           <meta name="cookie-policy" content="This site uses essential cookies for authentication and functionality" />
         </head>
         <body className="min-h-screen bg-black text-white">
-          {children}
+          <Navbar />
+          <main className="pt-4">
+            {children}
+          </main>
         </body>
       </html>
     </ClerkProvider>
