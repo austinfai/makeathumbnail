@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { generateReactHelpers } from "@uploadthing/react/hooks";
 import type { OurFileRouter } from "../api/uploadthing/core";
-import { SignInButton, useAuth } from "@clerk/nextjs";
+import { SignInButton, SignUpButton, useAuth } from "@clerk/nextjs";
 
 const { useUploadThing } = generateReactHelpers<OurFileRouter>();
 
@@ -153,14 +153,23 @@ export default function ImageGeneratorSimple() {
 
   if (!isSignedIn) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-4 p-8 bg-gray-900 rounded-lg">
-        <h2 className="text-xl font-semibold text-white">Sign in to Generate Images</h2>
-        <p className="text-gray-300 mb-4">Please sign in to access the image generation feature.</p>
-        <SignInButton mode="modal">
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-            Sign In
-          </button>
-        </SignInButton>
+      <div className="flex flex-col items-center justify-center space-y-6 p-8 bg-gray-900 rounded-lg">
+        <h2 className="text-2xl font-semibold text-white">Welcome to Make A Thumbnail</h2>
+        <p className="text-gray-300 text-center max-w-md">
+          Create beautiful YouTube thumbnails with AI. Sign in or create an account to get started.
+        </p>
+        <div className="flex gap-4">
+          <SignInButton mode="modal">
+            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+              Sign In
+            </button>
+          </SignInButton>
+          <SignUpButton mode="modal">
+            <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+              Sign Up
+            </button>
+          </SignUpButton>
+        </div>
       </div>
     );
   }

@@ -27,6 +27,10 @@ export const metadata: Metadata = {
   authors: [{ name: 'Make A Thumbnail' }],
   creator: 'Make A Thumbnail',
   publisher: 'Make A Thumbnail',
+  metadataBase: new URL('https://makeathumbnail.vercel.app'),
+  other: {
+    'cookie-policy': 'This site uses essential cookies for authentication and functionality.',
+  }
 };
 
 export default function RootLayout({
@@ -37,8 +41,24 @@ export default function RootLayout({
   return (
     <ClerkProvider 
       publishableKey={publishableKey}
+      appearance={{
+        layout: {
+          socialButtonsPlacement: "bottom",
+          socialButtonsVariant: "iconButton",
+          termsPageUrl: "https://clerk.com/terms"
+        },
+        elements: {
+          formButtonPrimary: 
+            "bg-blue-600 hover:bg-blue-700 text-white",
+          footerActionLink: 
+            "text-blue-600 hover:text-blue-700"
+        }
+      }}
     >
       <html lang="en" className={inter.className}>
+        <head>
+          <meta name="cookie-policy" content="This site uses essential cookies for authentication and functionality" />
+        </head>
         <body className="min-h-screen bg-black text-white">
           {children}
         </body>
