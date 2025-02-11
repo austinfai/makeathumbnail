@@ -19,17 +19,25 @@ export const ourFileRouter = {
             maxFileCount: 1
         }
     })
-        .middleware(async () => {
-            // This code runs on your server before upload
-            console.log('Processing upload request');
+        .middleware(async ({ req }) => {
+            // Add CORS headers
+            if (req.headers.get("origin")) {
+                req.headers.set("Access-Control-Allow-Origin", req.headers.get("origin")!);
+                req.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+                req.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+            }
 
-            // Whatever is returned here is accessible in onUploadComplete as `metadata`
+            console.log('Processing upload request');
             return { uploadedAt: new Date().toISOString() };
         })
         .onUploadComplete(async ({ metadata, file }) => {
-            // This code RUNS ON YOUR SERVER after upload
-            console.log("Upload complete for file:", file.url);
-            console.log("Metadata:", metadata);
+            try {
+                console.log("Upload complete for file:", file.url);
+                console.log("Metadata:", metadata);
+            } catch (error) {
+                console.error("Error in onUploadComplete:", error);
+                throw error;
+            }
         }),
 } satisfies FileRouter;
 

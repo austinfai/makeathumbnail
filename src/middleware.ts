@@ -1,7 +1,12 @@
 import { authMiddleware } from '@clerk/nextjs/server';
 
 export default authMiddleware({
-    publicRoutes: ["/", "/api/uploadthing"],
+    publicRoutes: [
+        "/",
+        "/api/uploadthing",
+        "/api/uploadthing/(.*)",
+        "/api/replicate/(.*)"
+    ],
 });
 
 // This example protects all routes including api/trpc routes
