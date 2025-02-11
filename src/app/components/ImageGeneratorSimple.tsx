@@ -155,9 +155,11 @@ export default function ImageGeneratorSimple() {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black">
         <div className="text-center space-y-8 p-8">
-          <h1 className="text-5xl font-bold text-white mb-4">Make A Thumbnail</h1>
+          <h1 className="text-5xl font-bold text-white mb-4">
+            Make A Thumbnail <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-400 animate-pulse shadow-lg shadow-amber-500/50">AI</span>
+          </h1>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
-            Create stunning YouTube thumbnails in seconds using AI. Perfect for content creators and YouTubers.
+            Create stunning thumbnails in seconds using AI. Perfect for content creators and influencers.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <SignInButton mode="modal">
@@ -167,7 +169,7 @@ export default function ImageGeneratorSimple() {
             </SignInButton>
             <SignUpButton mode="modal">
               <button className="w-full sm:w-auto px-8 py-3 text-lg bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                Get Started
+                Get Started Free
               </button>
             </SignUpButton>
           </div>

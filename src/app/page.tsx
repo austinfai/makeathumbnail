@@ -2,11 +2,11 @@ import type { Metadata } from 'next';
 import ImageGeneratorSimple from './components/ImageGeneratorSimple';
 
 export const metadata: Metadata = {
-  title: 'Create Images',
-  description: 'Generate and customize beautiful images using AI-powered tools.',
+  title: 'Make A Thumbnail AI - Create Beautiful Images',
+  description: 'Create stunning thumbnails in seconds using AI. Perfect for content creators and influencers.',
   openGraph: {
-    title: 'Create Images - Make A Thumbnail',
-    description: 'Generate and customize beautiful images using AI-powered tools.',
+    title: 'Make A Thumbnail AI',
+    description: 'Create stunning thumbnails in seconds using AI. Perfect for content creators and influencers.',
   },
 };
 
