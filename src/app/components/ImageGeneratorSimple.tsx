@@ -178,7 +178,7 @@ export default function ImageGeneratorSimple() {
             </div>
             <div className="p-6">
               <h3 className="text-xl font-semibold text-white mb-2">Perfect Size</h3>
-              <p className="text-gray-400">Optimized for YouTube's 1280x720 thumbnail dimensions</p>
+              <p className="text-gray-400">Optimized for YouTube&apos;s 1280x720 thumbnail dimensions</p>
             </div>
             <div className="p-6">
               <h3 className="text-xl font-semibold text-white mb-2">Quick & Easy</h3>
