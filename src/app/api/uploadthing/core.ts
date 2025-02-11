@@ -1,4 +1,5 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { auth } from "@clerk/nextjs/server";
 
 // Validate environment variables
 if (!process.env.UPLOADTHING_SECRET) {
@@ -19,25 +20,19 @@ export const ourFileRouter = {
             maxFileCount: 1
         }
     })
-        .middleware(async ({ req }) => {
-            // Add CORS headers
-            if (req.headers.get("origin")) {
-                req.headers.set("Access-Control-Allow-Origin", req.headers.get("origin")!);
-                req.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-                req.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
-            }
+        .middleware(async () => {
+            const { userId } = auth();
 
-            console.log('Processing upload request');
-            return { uploadedAt: new Date().toISOString() };
+            // This code runs on your server before upload
+            if (!userId) throw new Error("Unauthorized");
+
+            // Whatever is returned here is accessible in onUploadComplete as `metadata`
+            return { userId };
         })
         .onUploadComplete(async ({ metadata, file }) => {
-            try {
-                console.log("Upload complete for file:", file.url);
-                console.log("Metadata:", metadata);
-            } catch (error) {
-                console.error("Error in onUploadComplete:", error);
-                throw error;
-            }
+            // This code RUNS ON YOUR SERVER after upload
+            console.log("Upload complete for userId:", metadata.userId);
+            console.log("file url", file.url);
         }),
 } satisfies FileRouter;
 

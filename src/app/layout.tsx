@@ -2,7 +2,6 @@ import "./globals.css";
 import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
-import Navbar from './components/Navbar';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -11,11 +10,7 @@ const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
 // Validate the environment variable
 if (!publishableKey) {
-  throw new Error(
-    'Missing publishableKey environment variable. ' +
-    'This is needed for authentication to work. ' +
-    'Add it to your .env.local file or Vercel environment variables.'
-  );
+  throw new Error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
 }
 
 export const metadata: Metadata = {
@@ -28,10 +23,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Make A Thumbnail AI' }],
   creator: 'Make A Thumbnail AI',
   publisher: 'Make A Thumbnail AI',
-  metadataBase: new URL('https://makeathumbnail.vercel.app'),
-  other: {
-    'cookie-policy': 'This site uses essential cookies for authentication and functionality.',
-  }
+  metadataBase: new URL('http://localhost:3000'),
 };
 
 export default function RootLayout({
@@ -43,31 +35,41 @@ export default function RootLayout({
     <ClerkProvider 
       publishableKey={publishableKey}
       appearance={{
-        layout: {
-          socialButtonsPlacement: "bottom",
-          socialButtonsVariant: "iconButton",
-          termsPageUrl: "https://clerk.com/terms",
-          showOptionalFields: true,
-          privacyPageUrl: "https://clerk.com/privacy"
+        baseTheme: undefined,
+        variables: {
+          colorPrimary: 'rgb(37 99 235)',
         },
         elements: {
           formButtonPrimary: 
-            "bg-blue-600 hover:bg-blue-700 text-white",
+            "bg-blue-600 hover:bg-blue-700 text-white font-semibold",
           footerActionLink: 
             "text-blue-600 hover:text-blue-700",
-          socialButtonsIconButton: "hover:bg-gray-100 border border-gray-300",
-          formFieldInput: "rounded-lg border-gray-300",
-          card: "bg-white shadow-xl rounded-xl"
+          card: 
+            "bg-white shadow-xl rounded-xl border border-gray-100",
+          headerTitle: 
+            "text-gray-900 text-xl font-semibold",
+          headerSubtitle: 
+            "text-gray-600",
+          socialButtonsBlockButton: 
+            "bg-white border border-gray-200 hover:bg-gray-50 text-black",
+          socialButtonsBlockButtonText: 
+            "text-gray-600",
+          formFieldLabel: 
+            "text-gray-700",
+          formFieldInput: 
+            "text-black border-gray-300 focus:border-blue-500 focus:ring-blue-500",
+          footerActionText: 
+            "text-gray-600",
+          identityPreviewText: 
+            "text-gray-600",
+          identityPreviewEditButtonIcon: 
+            "text-gray-600"
         }
       }}
     >
       <html lang="en" className={inter.className}>
-        <head>
-          <meta name="cookie-policy" content="This site uses essential cookies for authentication and functionality" />
-        </head>
         <body className="min-h-screen bg-black text-white">
-          <Navbar />
-          <main className="pt-4">
+          <main>
             {children}
           </main>
         </body>

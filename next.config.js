@@ -14,7 +14,14 @@ const nextConfig = {
     },
     experimental: {
         missingSuspenseWithCSRBailout: false
-    }
+    },
+    // Add proper error handling for 404s
+    async redirects() {
+        return [];
+    },
+    poweredByHeader: false,
+    reactStrictMode: true,
+    swcMinify: true
 };
 
 module.exports = nextConfig; 
