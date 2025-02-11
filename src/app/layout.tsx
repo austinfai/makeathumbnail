@@ -39,7 +39,7 @@ export default function RootLayout({
       publishableKey={publishableKey}
     >
       <html lang="en" className={inter.className}>
-        <body className="min-h-screen bg-white">
+        <body className="min-h-screen bg-black text-white">
           {children}
         </body>
       </html>
