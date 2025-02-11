@@ -19,14 +19,14 @@ if (!publishableKey) {
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Make A Thumbnail',
-    default: 'Make A Thumbnail - Create Beautiful Images',
+    template: '%s | Make A Thumbnail AI',
+    default: 'Make A Thumbnail AI - Create Beautiful Images',
   },
-  description: 'Create beautiful thumbnails and images with AI-powered generation and editing tools.',
+  description: 'Create stunning thumbnails in seconds using AI. Perfect for content creators and influencers.',
   keywords: ['thumbnail generator', 'AI image generation', 'image editor', 'text overlay'],
-  authors: [{ name: 'Make A Thumbnail' }],
-  creator: 'Make A Thumbnail',
-  publisher: 'Make A Thumbnail',
+  authors: [{ name: 'Make A Thumbnail AI' }],
+  creator: 'Make A Thumbnail AI',
+  publisher: 'Make A Thumbnail AI',
   metadataBase: new URL('https://makeathumbnail.vercel.app'),
   other: {
     'cookie-policy': 'This site uses essential cookies for authentication and functionality.',
@@ -45,13 +45,18 @@ export default function RootLayout({
         layout: {
           socialButtonsPlacement: "bottom",
           socialButtonsVariant: "iconButton",
-          termsPageUrl: "https://clerk.com/terms"
+          termsPageUrl: "https://clerk.com/terms",
+          showOptionalFields: true,
+          privacyPageUrl: "https://clerk.com/privacy"
         },
         elements: {
           formButtonPrimary: 
             "bg-blue-600 hover:bg-blue-700 text-white",
           footerActionLink: 
-            "text-blue-600 hover:text-blue-700"
+            "text-blue-600 hover:text-blue-700",
+          socialButtonsIconButton: "hover:bg-gray-100 border border-gray-300",
+          formFieldInput: "rounded-lg border-gray-300",
+          card: "bg-white shadow-xl rounded-xl"
         }
       }}
     >

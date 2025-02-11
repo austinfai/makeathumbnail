@@ -174,15 +174,15 @@ export default function ImageGeneratorSimple() {
             </SignUpButton>
           </div>
           <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-            <div className="p-6">
+            <div className="p-6 rounded-lg bg-gray-800/50 backdrop-blur-sm">
               <h3 className="text-xl font-semibold text-white mb-2">AI-Powered</h3>
               <p className="text-gray-400">Generate professional thumbnails with advanced AI technology</p>
             </div>
-            <div className="p-6">
+            <div className="p-6 rounded-lg bg-gray-800/50 backdrop-blur-sm">
               <h3 className="text-xl font-semibold text-white mb-2">Perfect Size</h3>
               <p className="text-gray-400">Optimized for YouTube&apos;s 1280x720 thumbnail dimensions</p>
             </div>
-            <div className="p-6">
+            <div className="p-6 rounded-lg bg-gray-800/50 backdrop-blur-sm">
               <h3 className="text-xl font-semibold text-white mb-2">Quick & Easy</h3>
               <p className="text-gray-400">Create thumbnails in seconds with simple text prompts</p>
             </div>
