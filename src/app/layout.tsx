@@ -5,9 +5,16 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// Ensure environment variable is available
-if (!process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY) {
-  throw new Error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
+// Get the publishable key from environment
+const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
+// Validate the environment variable
+if (!publishableKey) {
+  throw new Error(
+    'Missing publishableKey environment variable. ' +
+    'This is needed for authentication to work. ' +
+    'Add it to your .env.local file or Vercel environment variables.'
+  );
 }
 
 export const metadata: Metadata = {
@@ -28,9 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider publishableKey={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}>
+    <ClerkProvider 
+      publishableKey={publishableKey}
+    >
       <html lang="en" className={inter.className}>
-        <body>{children}</body>
+        <body className="min-h-screen bg-white">
+          {children}
+        </body>
       </html>
     </ClerkProvider>
   );
