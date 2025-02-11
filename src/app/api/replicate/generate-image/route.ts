@@ -2,40 +2,67 @@ import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
 import { headers } from 'next/headers';
 
-// Add debug logging
-console.log('Replicate API Token:', process.env.REPLICATE_API_TOKEN ? 'Present' : 'Missing');
+// Set up CORS headers
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+};
 
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN,
-});
+// Debug logging for environment variables
+console.log('Environment check on route initialization:');
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('REPLICATE_API_TOKEN exists:', !!process.env.REPLICATE_API_TOKEN);
+console.log('REPLICATE_API_TOKEN length:', process.env.REPLICATE_API_TOKEN?.length);
+
+// Validate environment variables at startup
+const REPLICATE_API_TOKEN = process.env.REPLICATE_API_TOKEN?.trim();
+if (!REPLICATE_API_TOKEN) {
+  console.error('REPLICATE_API_TOKEN is not configured in environment variables');
+  throw new Error('Replicate API token is required');
+}
+
+// Initialize Replicate client
+let replicate: Replicate;
+try {
+  replicate = new Replicate({
+    auth: REPLICATE_API_TOKEN,
+  });
+  console.log('Replicate client initialized successfully');
+} catch (error) {
+  console.error('Failed to initialize Replicate client:', error);
+  throw error;
+}
 
 export async function POST(request: Request) {
+  console.log('Received request to generate image');
+
   try {
-    const headersList = headers();
-    const origin = headersList.get('origin');
-
-    // Set CORS headers
-    const corsHeaders = {
-      'Access-Control-Allow-Origin': origin || '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    };
-
     // Handle preflight request
     if (request.method === 'OPTIONS') {
       return new NextResponse(null, { headers: corsHeaders });
     }
 
-    // Check for API token first
-    if (!process.env.REPLICATE_API_TOKEN) {
-      console.error('Replicate API token not found in environment variables');
+    // Double-check API token at request time
+    if (!REPLICATE_API_TOKEN) {
+      const error = 'Replicate API token not found in environment variables';
+      console.error(error);
       return NextResponse.json(
-        { error: 'Replicate API token not configured' },
+        {
+          error,
+          details: {
+            env: process.env.NODE_ENV,
+            tokenExists: !!process.env.REPLICATE_API_TOKEN,
+          }
+        },
         { status: 500, headers: corsHeaders }
       );
     }
 
+    // Parse request body
     const body = await request.json();
+    console.log('Request body:', JSON.stringify(body, null, 2));
+
     const { prompt, width, height, num_inference_steps, guidance_scale, negative_prompt } = body;
 
     if (!prompt) {
@@ -46,6 +73,7 @@ export async function POST(request: Request) {
     }
 
     console.log('Starting image generation with prompt:', prompt);
+    console.log('Using Replicate API token:', `${REPLICATE_API_TOKEN.substring(0, 4)}...${REPLICATE_API_TOKEN.substring(REPLICATE_API_TOKEN.length - 4)}`);
 
     const output = await replicate.run(
       "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
@@ -61,7 +89,7 @@ export async function POST(request: Request) {
       }
     ) as string[];
 
-    console.log('Image generation completed:', output);
+    console.log('Image generation completed. Output:', output);
 
     if (!output || !output.length) {
       console.error('No output received from Replicate');
@@ -78,15 +106,21 @@ export async function POST(request: Request) {
 
   } catch (error: any) {
     console.error('Error in generate-image:', error);
+    // Include more detailed error information
+    const errorMessage = error.message || 'Failed to generate image';
+    const errorDetails = {
+      message: errorMessage,
+      type: error.name,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
+      env: process.env.NODE_ENV,
+      tokenExists: !!REPLICATE_API_TOKEN,
+    };
+
     return NextResponse.json(
-      { error: error.message || 'Failed to generate image' },
+      { error: errorMessage, details: errorDetails },
       {
         status: 500,
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'POST, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type',
-        }
+        headers: corsHeaders
       }
     );
   }

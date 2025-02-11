@@ -46,9 +46,9 @@ export default function ImageGeneratorSimple() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          prompt: prompt + ', high quality, detailed',
-          width: 1024,
-          height: 1024,
+          prompt: prompt + ', high quality, detailed, youtube thumbnail style',
+          width: 1280,
+          height: 720,
           num_inference_steps: 50,
           guidance_scale: 7.5,
           negative_prompt: "blurry, low quality, distorted, bad anatomy, bad hands, cropped, worst quality"
@@ -72,7 +72,7 @@ export default function ImageGeneratorSimple() {
       try {
         const imageResponse = await fetch(imageUrl);
         const blob = await imageResponse.blob();
-        const file = new File([blob], `generated-${Date.now()}.png`, { type: 'image/png' });
+        const file = new File([blob], `thumbnail-${Date.now()}.png`, { type: 'image/png' });
 
         const uploadResponse = await startUpload([file]);
         
@@ -94,18 +94,13 @@ export default function ImageGeneratorSimple() {
     }
   };
 
-  const clearImage = () => {
-    setImage(null);
-    setPrompt('');
-  };
-
   const downloadImage = async () => {
     if (!image) return;
 
     try {
       const link = document.createElement('a');
       link.href = image;
-      link.download = `generated-image-${Date.now()}.png`;
+      link.download = `youtube-thumbnail-${Date.now()}.png`;
       
       const response = await fetch(image);
       const blob = await response.blob();
@@ -141,14 +136,14 @@ export default function ImageGeneratorSimple() {
   }
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
+    <div className="w-full max-w-6xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl space-y-8">
         {(!image && !loading) && (
           <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-center text-white mb-8">Create Your Image</h1>
+            <h1 className="text-3xl font-bold text-center text-white mb-8">Create YouTube Thumbnail</h1>
             <div>
               <label htmlFor="prompt" className="block text-lg font-medium text-gray-200 mb-4 text-center">
-                Describe the image you want to generate
+                Describe your thumbnail
               </label>
               <textarea
                 id="prompt"
@@ -156,7 +151,7 @@ export default function ImageGeneratorSimple() {
                 onChange={(e) => setPrompt(e.target.value)}
                 className="mt-1 block w-full rounded-lg border-gray-600 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-4"
                 rows={4}
-                placeholder="A majestic mountain landscape at sunset..."
+                placeholder="Describe your YouTube thumbnail idea..."
               />
             </div>
             <div className="flex justify-center mt-6">
@@ -165,7 +160,7 @@ export default function ImageGeneratorSimple() {
                 disabled={loading || !prompt.trim()}
                 className="w-full max-w-md py-4 px-8 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Generating...' : 'Generate Image'}
+                {loading ? 'Generating...' : 'Generate Thumbnail'}
               </button>
             </div>
           </div>
@@ -184,12 +179,12 @@ export default function ImageGeneratorSimple() {
                 onClick={downloadImage}
                 className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                Download Image
+                Download Thumbnail
               </button>
             </div>
             <div className="relative w-full">
-              <div className="relative w-full max-w-[1024px] mx-auto overflow-hidden flex items-center justify-center bg-gray-900 rounded-lg">
-                <div className="relative aspect-square w-full">
+              <div className="relative w-full max-w-[1280px] mx-auto overflow-hidden flex items-center justify-center bg-gray-900 rounded-lg">
+                <div className="relative w-full" style={{ aspectRatio: '1280/720' }}>
                   <Image
                     src={image}
                     alt={prompt}
@@ -197,9 +192,12 @@ export default function ImageGeneratorSimple() {
                     className="object-contain"
                     priority
                     unoptimized
-                    sizes="(max-width: 1024px) 100vw, 1024px"
+                    sizes="(max-width: 1280px) 100vw, 1280px"
                   />
                 </div>
+              </div>
+              <div className="text-center mt-2 text-gray-400">
+                <p>YouTube Thumbnail Size: 1280x720 pixels</p>
               </div>
             </div>
           </div>
@@ -210,7 +208,7 @@ export default function ImageGeneratorSimple() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75 z-50">
           <div className="bg-gray-900 rounded-lg p-8 shadow-xl flex flex-col items-center space-y-4">
             <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-500 border-t-transparent"></div>
-            <p className="text-xl font-medium text-white">Generating Image...</p>
+            <p className="text-xl font-medium text-white">Generating Thumbnail...</p>
             <p className="text-gray-300">This may take a few moments</p>
           </div>
         </div>
