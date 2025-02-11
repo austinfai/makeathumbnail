@@ -98,15 +98,45 @@ export default function ImageGeneratorSimple() {
     if (!image) return;
 
     try {
-      const link = document.createElement('a');
-      link.href = image;
-      link.download = `youtube-thumbnail-${Date.now()}.png`;
+      // Create a canvas to resize the image
+      const canvas = document.createElement('canvas');
+      canvas.width = 1280;
+      canvas.height = 720;
+      const ctx = canvas.getContext('2d');
       
-      const response = await fetch(image);
-      const blob = await response.blob();
+      if (!ctx) {
+        throw new Error('Could not get canvas context');
+      }
+
+      // Load the image
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error('Failed to load image'));
+        img.src = image;
+      });
+
+      // Draw and resize the image
+      ctx.drawImage(img, 0, 0, 1280, 720);
+      
+      // Convert to blob
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob);
+          } else {
+            reject(new Error('Failed to convert canvas to blob'));
+          }
+        }, 'image/png');
+      });
+
+      // Create download link
       const blobUrl = URL.createObjectURL(blob);
-      
+      const link = document.createElement('a');
       link.href = blobUrl;
+      link.download = `youtube-thumbnail-${Date.now()}.png`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -189,7 +219,7 @@ export default function ImageGeneratorSimple() {
                     src={image}
                     alt={prompt}
                     fill
-                    className="object-contain"
+                    className="object-cover"
                     priority
                     unoptimized
                     sizes="(max-width: 1280px) 100vw, 1280px"
