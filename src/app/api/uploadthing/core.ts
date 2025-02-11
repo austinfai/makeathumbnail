@@ -1,20 +1,33 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
-const f = createUploadthing();
-
-// Verify environment variables
-if (!process.env.UPLOADTHING_SECRET || !process.env.UPLOADTHING_APP_ID) {
-    console.error('Missing UploadThing configuration');
+// Validate environment variables
+if (!process.env.UPLOADTHING_SECRET) {
+    throw new Error('UPLOADTHING_SECRET is required in environment variables');
 }
+
+if (!process.env.UPLOADTHING_APP_ID) {
+    throw new Error('UPLOADTHING_APP_ID is required in environment variables');
+}
+
+const f = createUploadthing();
 
 // FileRouter for your app, can contain multiple FileRoutes
 export const ourFileRouter = {
-    imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })
+    imageUploader: f({
+        image: {
+            maxFileSize: "4MB",
+            maxFileCount: 1
+        }
+    })
         .middleware(async () => {
+            // This code runs on your server before upload
             console.log('Processing upload request');
-            return { uploadedBy: "user" };
+
+            // Whatever is returned here is accessible in onUploadComplete as `metadata`
+            return { uploadedAt: new Date().toISOString() };
         })
         .onUploadComplete(async ({ metadata, file }) => {
+            // This code RUNS ON YOUR SERVER after upload
             console.log("Upload complete for file:", file.url);
             console.log("Metadata:", metadata);
         }),
