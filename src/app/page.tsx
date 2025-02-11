@@ -12,11 +12,8 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold">Make A Thumbnail</h1>
-        <p className="mt-4">Create beautiful images with AI</p>
-      </div>
+    <main className="min-h-screen">
+      <ImageGeneratorSimple />
     </main>
   );
 }
