@@ -153,22 +153,38 @@ export default function ImageGeneratorSimple() {
 
   if (!isSignedIn) {
     return (
-      <div className="flex flex-col items-center justify-center space-y-6 p-8 bg-gray-900 rounded-lg">
-        <h2 className="text-2xl font-semibold text-white">Welcome to Make A Thumbnail</h2>
-        <p className="text-gray-300 text-center max-w-md">
-          Create beautiful YouTube thumbnails with AI. Sign in or create an account to get started.
-        </p>
-        <div className="flex gap-4">
-          <SignInButton mode="modal">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-              Sign In
-            </button>
-          </SignInButton>
-          <SignUpButton mode="modal">
-            <button className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-              Sign Up
-            </button>
-          </SignUpButton>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-black">
+        <div className="text-center space-y-8 p-8">
+          <h1 className="text-5xl font-bold text-white mb-4">Make A Thumbnail</h1>
+          <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-8">
+            Create stunning YouTube thumbnails in seconds using AI. Perfect for content creators and YouTubers.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <SignInButton mode="modal">
+              <button className="w-full sm:w-auto px-8 py-3 text-lg bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Sign In
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="w-full sm:w-auto px-8 py-3 text-lg bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
+                Get Started
+              </button>
+            </SignUpButton>
+          </div>
+          <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-white mb-2">AI-Powered</h3>
+              <p className="text-gray-400">Generate professional thumbnails with advanced AI technology</p>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-white mb-2">Perfect Size</h3>
+              <p className="text-gray-400">Optimized for YouTube's 1280x720 thumbnail dimensions</p>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold text-white mb-2">Quick & Easy</h3>
+              <p className="text-gray-400">Create thumbnails in seconds with simple text prompts</p>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -177,40 +193,51 @@ export default function ImageGeneratorSimple() {
   return (
     <div className="w-full max-w-6xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl space-y-8">
-        <div className="space-y-4">
-          <h1 className="text-3xl font-bold text-center text-white mb-8">Create YouTube Thumbnail</h1>
-          <div>
-            <label htmlFor="prompt" className="block text-lg font-medium text-gray-200 mb-4 text-center">
-              Describe your thumbnail
-            </label>
-            <textarea
-              id="prompt"
-              value={prompt}
-              onChange={(e) => setPrompt(e.target.value)}
-              className="mt-1 block w-full rounded-lg border-gray-600 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-4"
-              rows={4}
-              placeholder="Describe your YouTube thumbnail idea..."
-            />
+        {(!image && !loading) && (
+          <div className="space-y-4">
+            <h1 className="text-3xl font-bold text-center text-white mb-8">Create YouTube Thumbnail</h1>
+            <div>
+              <label htmlFor="prompt" className="block text-lg font-medium text-gray-200 mb-4 text-center">
+                Describe your thumbnail
+              </label>
+              <textarea
+                id="prompt"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                className="mt-1 block w-full rounded-lg border-gray-600 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-4"
+                rows={4}
+                placeholder="Describe your YouTube thumbnail idea..."
+              />
+            </div>
+            <div className="flex justify-center mt-6">
+              <button
+                onClick={generateImage}
+                disabled={loading || !prompt.trim()}
+                className="w-full max-w-md py-4 px-8 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? 'Generating...' : 'Generate Thumbnail'}
+              </button>
+            </div>
           </div>
-          <div className="flex justify-center mt-6">
-            <button
-              onClick={generateImage}
-              disabled={loading || !prompt.trim()}
-              className="w-full max-w-md py-4 px-8 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Generating...' : image ? 'Generate Another' : 'Generate Thumbnail'}
-            </button>
-          </div>
-        </div>
+        )}
 
         {image && !loading && (
           <div className="space-y-6">
-            <div className="flex justify-center">
+            <div className="flex gap-4 justify-center">
+              <button
+                onClick={() => {
+                  setImage(null);
+                  setPrompt('');
+                }}
+                className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+              >
+                Create New
+              </button>
               <button
                 onClick={downloadImage}
                 className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                Download Thumbnail
+                Download
               </button>
             </div>
             <div className="relative w-full">
