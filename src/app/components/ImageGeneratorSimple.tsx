@@ -177,43 +177,35 @@ export default function ImageGeneratorSimple() {
   return (
     <div className="w-full max-w-6xl mx-auto p-4 min-h-screen flex flex-col items-center justify-center">
       <div className="w-full max-w-2xl space-y-8">
-        {(!image && !loading) && (
-          <div className="space-y-4">
-            <h1 className="text-3xl font-bold text-center text-white mb-8">Create YouTube Thumbnail</h1>
-            <div>
-              <label htmlFor="prompt" className="block text-lg font-medium text-gray-200 mb-4 text-center">
-                Describe your thumbnail
-              </label>
-              <textarea
-                id="prompt"
-                value={prompt}
-                onChange={(e) => setPrompt(e.target.value)}
-                className="mt-1 block w-full rounded-lg border-gray-600 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-4"
-                rows={4}
-                placeholder="Describe your YouTube thumbnail idea..."
-              />
-            </div>
-            <div className="flex justify-center mt-6">
-              <button
-                onClick={generateImage}
-                disabled={loading || !prompt.trim()}
-                className="w-full max-w-md py-4 px-8 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? 'Generating...' : 'Generate Thumbnail'}
-              </button>
-            </div>
+        <div className="space-y-4">
+          <h1 className="text-3xl font-bold text-center text-white mb-8">Create YouTube Thumbnail</h1>
+          <div>
+            <label htmlFor="prompt" className="block text-lg font-medium text-gray-200 mb-4 text-center">
+              Describe your thumbnail
+            </label>
+            <textarea
+              id="prompt"
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              className="mt-1 block w-full rounded-lg border-gray-600 bg-gray-800 text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-4"
+              rows={4}
+              placeholder="Describe your YouTube thumbnail idea..."
+            />
           </div>
-        )}
+          <div className="flex justify-center mt-6">
+            <button
+              onClick={generateImage}
+              disabled={loading || !prompt.trim()}
+              className="w-full max-w-md py-4 px-8 bg-blue-600 text-white text-lg font-semibold rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Generating...' : image ? 'Generate Another' : 'Generate Thumbnail'}
+            </button>
+          </div>
+        </div>
 
         {image && !loading && (
           <div className="space-y-6">
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={() => setImage(null)}
-                className="px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-              >
-                Generate Another
-              </button>
+            <div className="flex justify-center">
               <button
                 onClick={downloadImage}
                 className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
