@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import Replicate from 'replicate';
 import { headers } from 'next/headers';
 
+// Add debug logging
+console.log('Replicate API Token:', process.env.REPLICATE_API_TOKEN ? 'Present' : 'Missing');
+
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
@@ -23,6 +26,15 @@ export async function POST(request: Request) {
       return new NextResponse(null, { headers: corsHeaders });
     }
 
+    // Check for API token first
+    if (!process.env.REPLICATE_API_TOKEN) {
+      console.error('Replicate API token not found in environment variables');
+      return NextResponse.json(
+        { error: 'Replicate API token not configured' },
+        { status: 500, headers: corsHeaders }
+      );
+    }
+
     const body = await request.json();
     const { prompt, width, height, num_inference_steps, guidance_scale, negative_prompt } = body;
 
@@ -33,14 +45,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Check for API token
-    if (!process.env.REPLICATE_API_TOKEN) {
-      console.error('Replicate API token not found');
-      return NextResponse.json(
-        { error: 'Replicate API token not configured' },
-        { status: 500, headers: corsHeaders }
-      );
-    }
+    console.log('Starting image generation with prompt:', prompt);
 
     const output = await replicate.run(
       "stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b",
@@ -56,7 +61,10 @@ export async function POST(request: Request) {
       }
     ) as string[];
 
+    console.log('Image generation completed:', output);
+
     if (!output || !output.length) {
+      console.error('No output received from Replicate');
       return NextResponse.json(
         { error: 'No image generated' },
         { status: 500, headers: corsHeaders }
