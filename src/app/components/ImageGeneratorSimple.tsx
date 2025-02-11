@@ -109,7 +109,7 @@ export default function ImageGeneratorSimple() {
       }
 
       // Load the image
-      const img = new Image();
+      const img = document.createElement('img');
       img.crossOrigin = 'anonymous';
       
       await new Promise<void>((resolve, reject) => {
