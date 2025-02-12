@@ -5,11 +5,19 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-// Get the publishable key from environment
+// Get the environment variables
 const publishableKey = process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY;
 
-// Validate the environment variable
+// Debug logging for Clerk initialization
+console.log('Clerk initialization:');
+console.log('- Environment:', process.env.NODE_ENV);
+console.log('- Publishable key exists:', !!publishableKey);
+console.log('- Sign-in URL:', process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL);
+console.log('- Sign-up URL:', process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL);
+
+// Validate environment variables
 if (!publishableKey) {
+  console.error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
   throw new Error('Missing NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY');
 }
 
@@ -23,7 +31,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'Make A Thumbnail AI' }],
   creator: 'Make A Thumbnail AI',
   publisher: 'Make A Thumbnail AI',
-  metadataBase: new URL('http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'),
 };
 
 export default function RootLayout({
@@ -69,7 +77,7 @@ export default function RootLayout({
     >
       <html lang="en" className={inter.className}>
         <body className="min-h-screen bg-black text-white">
-          <main>
+          <main className="relative">
             {children}
           </main>
         </body>
